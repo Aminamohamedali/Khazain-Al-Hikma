@@ -2,7 +2,7 @@
 
 **A cursive Arabic handwriting corpus from Islamic heritage.**
 
-Khazain Al-Hikma contains 20 historical Arabic manuscripts from the Central Library of the Islamic University of Madinah. The manuscripts date from 979 to 1731 CE and are written in Naskh, Ruq'ah, and Muhaqqaq scripts. Every page has a manual transcription. The dataset also includes automatically segmented line images aligned to those transcriptions, plus a train/val/test split. It is intended for training and benchmarking OCR / HTR models on historical handwritten Arabic.
+Khazain Al-Hikma contains 20 historical Arabic manuscripts from the Central Library of the Islamic University of Madinah. The manuscripts contain texts composed between 979 and 1731 CE and are written in Naskh, Ruq'ah, and Muhaqqaq scripts. Every page has a manual transcription. The dataset also includes automatically segmented line images aligned to those transcriptions, plus a train/val/test split. It is intended for training and benchmarking OCR / HTR models on historical handwritten Arabic.
 
 | | |
 |---|---|
@@ -12,7 +12,7 @@ Khazain Al-Hikma contains 20 historical Arabic manuscripts from the Central Libr
 | Transcribed words | ~414,000 |
 | Illegible-word markers (`*`) | ~2,630 |
 | Line images with transcription | 33,074 |
-| Date range | 979 – 1731 CE |
+| Texts composed | 979 – 1731 CE |
 
 ## Repository layout
 
@@ -42,7 +42,7 @@ Page numbers are eight-digit, zero-padded integers. **In every manuscript they s
 
 - **`images/`**: the original high-resolution TIFF scans. Each scan shows two facing pages. (`MANUSCRIPT_16/images/00000086.png` is the only non-TIFF scan.)
 - **`annotations/`**: one UTF-8 plain-text transcription per page, with line breaks following the manuscript.
-  - `part_01` is the **right** page and `part_02` is the **left** page of the scan with the same number.
+  - `part_01` is the **right** page and `part_02` is the **left** page of the scan with the same number. (Some manuscripts name these `part1` and `part2`.)
   - A single `*` marks a word, or a run of words, that was illegible or missing because of damage, fading, or difficult calligraphy.
 
 ### `page-level/`: single-page images
@@ -59,7 +59,7 @@ Each scan has been split into its right and left pages (`*_right.png`, `*_left.p
 | `book` | manuscript, e.g. `MANUSCRIPT_01` |
 | `text` | full page transcription (may contain line breaks; read it with a CSV parser) |
 
-`page_level.csv` has the same rows, but with an `annotation_path` column instead of `text`. Its paths are absolute paths from the original processing server, so use them only for their file names.
+`page_level.csv` has the same rows, but with an `annotation_path` column instead of `text`, pointing to the transcription file relative to `page-level/` (e.g. `../raw/MANUSCRIPT_01/annotations/00000002_part1.txt`).
 
 
 ### `line-level/`: segmented line images
@@ -72,10 +72,8 @@ manuscript_<MS>_<page number>_part_<PP>_<line>.jpg
 
 Each line was matched to its line of the page transcription.
 
-- **`dataset.csv`**: all lines, with columns `img_path`, `text`, `split`.
-- **`Manuscript NN/manuscript_NN.csv`**: lines for one manuscript, with columns `img_path`, `text`.
-
-The directory prefix in `img_path` (`dataset/manuscript_NN/` or `images/`) does not match this repository's layout. Use the file name and look it up in `line-level/Manuscript NN/segmented_lines/`. 
+- **`dataset.csv`**: all lines, with columns `img_path`, `text`, `split`. `img_path` is relative to `line-level/`, e.g. `Manuscript 01/segmented_lines/manuscript_01_00000001_part_01_1.jpg`.
+- **`Manuscript NN/manuscript_NN.csv`**: lines for one manuscript, with columns `img_path`, `text`. `img_path` is relative to the manuscript's folder, e.g. `segmented_lines/manuscript_01_00000001_part_01_1.jpg`.
 
 ```python
 import pandas as pd
@@ -83,11 +81,7 @@ from pathlib import Path
 
 root = Path("line-level")
 df = pd.read_csv(root / "dataset.csv")
-ms = df.img_path.str.extract(r"manuscript_(\d\d)_")[0]
-df["file"] = [
-    next((root / f"Manuscript {m}").glob("seg*_lines")) / Path(p).name
-    for m, p in zip(ms, df.img_path)
-]
+df["file"] = [root / p for p in df.img_path]
 ```
 
 ## Splits
@@ -102,7 +96,7 @@ The data is split at the **page** level, so no page contributes lines to more th
 
 ## Manuscripts
 
-| ID | Year (CE) | Script | Pages | Line images | Words | `*` markers |
+| ID | Composed (CE) | Script | Pages | Line images | Words | `*` markers |
 |---|---|---|---:|---:|---:|---:|
 | 01 | 1622 | Naskh | 404 | 2,895 | 39,842 | 490 |
 | 02 | 1505 | Naskh | 26 | 465 | 5,994 | 44 |
@@ -144,11 +138,12 @@ The source manuscripts are held by the Central Library of the Islamic University
   title  = {Khazain Al-Hikma: A Cursive Arabic Handwriting Corpus from Islamic Heritage},
   author = {Faizullah, Safiullah and Attia, Maram and Selim, Amina and Zahran, Louai and
             Ashraf, Nouran and Tarek, Omnia and Ali, Rana and Said, Rawan and
-            Yasser, Yomna and Khan, Imdad Ullah and Torki, Marwan},
+            Yasser, Yomna and Khan, Imdad Ullah and Ayub, Muhammad Sohaib and
+            Torki, Marwan},
   year   = {2026}
 }
 ```
 
 ## License
 
-_To be added._
+This dataset is released under the [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) license. See [`LICENSE`](LICENSE).
