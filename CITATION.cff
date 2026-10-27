@@ -1,0 +1,50 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "Khazain Al-Hikma: A Cursive Arabic Handwriting Corpus from Islamic Heritage"
+authors:
+  - family-names: Faizullah
+    given-names: Safiullah
+    email: safi@iu.edu.sa
+    affiliation: "Department of Computer Science, Faculty of Computer and Information Systems, Islamic University of Madinah, Madinah 42351, Saudi Arabia"
+  - family-names: Attia
+    given-names: Maram
+    email: eng-maram.attia1722@alexu.edu.eg
+    affiliation: "Computer and Systems Engineering, Alexandria University, Alexandria, Egypt"
+  - family-names: Selim
+    given-names: Amina
+    affiliation: "Computer and Systems Engineering, Alexandria University, Alexandria, Egypt"
+  - family-names: Zahran
+    given-names: Louai
+    affiliation: "Computer and Systems Engineering, Alexandria University, Alexandria, Egypt"
+  - family-names: Ashraf
+    given-names: Nouran
+    affiliation: "Computer and Systems Engineering, Alexandria University, Alexandria, Egypt"
+  - family-names: Tarek
+    given-names: Omnia
+    affiliation: "Computer and Systems Engineering, Alexandria University, Alexandria, Egypt"
+  - family-names: Ali
+    given-names: Rana
+    affiliation: "Computer and Systems Engineering, Alexandria University, Alexandria, Egypt"
+  - family-names: Said
+    given-names: Rawan
+    affiliation: "Computer and Systems Engineering, Alexandria University, Alexandria, Egypt"
+  - family-names: Yasser
+    given-names: Yomna
+    affiliation: "Computer and Systems Engineering, Alexandria University, Alexandria, Egypt"
+  - family-names: Khan
+    given-names: Imdad Ullah
+    affiliation: "Department of Computer Science, Faculty of Computer and Information Systems, Islamic University of Madinah, Madinah 42351, Saudi Arabia"
+  - family-names: Ayub
+    given-names: Muhammad Sohaib
+  - family-names: Torki
+    given-names: Marwan
+    affiliation: "Computer and Systems Engineering, Alexandria University, Alexandria, Egypt"
+repository-code: "https://github.com/Aminamohamedali/Khazain-Al-Hikma"
+license: CC-BY-4.0
+keywords:
+  - Arabic
+  - handwriting recognition
+  - HTR
+  - OCR
+  - historical manuscripts
